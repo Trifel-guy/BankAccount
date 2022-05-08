@@ -1,0 +1,12 @@
+fastapi
+starlette
+typing-extensions
+python-dotenv
+uvicorn
+bcrypt
+passlib
+email-validator
+requests-async
+python-multipart==0.0.5
+pytest
+mysqlclient
