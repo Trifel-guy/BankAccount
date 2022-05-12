@@ -11,4 +11,24 @@ services:
       - 8000:8000
     volumes:
       - ./app:/app
+    depends_on:
+      - mysqldb
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+  mysqldb:
+    build: ./mysql
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./mysql_data/:/var/lib/mysql/
+      - ./mysql/conf.d:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_DATABASE: ${DATABASE}
+    env_file:
+      - .env
+    ports:
+      - 3307:3306
+      
+  

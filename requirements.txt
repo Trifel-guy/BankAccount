@@ -9,4 +9,5 @@ email-validator
 requests-async
 python-multipart==0.0.5
 pytest
-mysqlclient
+pymysql
+cryptography

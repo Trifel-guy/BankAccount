@@ -5,7 +5,7 @@ WORKDIR /app
 
 ENV PYTHONPATH=${PYTHONPATH}:/.
 # Install and configure dependencies
-RUN apk add --no-cache build-base libressl-dev musl-dev libffi-dev
+RUN apk add --no-cache build-base libressl-dev musl-dev libffi-dev mysql-client
 
 COPY requirements.txt .
 

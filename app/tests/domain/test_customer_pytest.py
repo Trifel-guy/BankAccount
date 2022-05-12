@@ -1,5 +1,6 @@
 from app.domain.customer import Customer
 from app.domain.account import Account
+from app.adapter.CustomerAdapter import CustomerAdapter
 import uuid
 
 def test_account_existing_owner_id():
@@ -9,8 +10,11 @@ def test_account_existing_owner_id():
 
 
 def test_account_defaults():
-    customer = Customer("guy","trifel")
+    adapter = CustomerAdapter()
+
+    customer = Customer("guy","trifel", adapter)
     assert uuid.UUID(Account(customer.id).id)
 
 def test_customer_defaults():
-    assert uuid.UUID(Customer("guy","trifel").id)
+    adapter = CustomerAdapter()
+    assert uuid.UUID(Customer("guy","trifel", adapter).id)
