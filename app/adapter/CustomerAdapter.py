@@ -18,7 +18,7 @@ from bson import ObjectId
 class CustomerAdapter(ManagerInterface):
         
     def create_user(self, customer: Customer) -> Customer:
-        NotImplementedError
+        raise NotImplementedError()
             
     def account_statement(self, customer: Customer) -> Account:
         raise NotImplementedError()
