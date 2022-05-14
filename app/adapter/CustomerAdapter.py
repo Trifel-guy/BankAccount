@@ -18,10 +18,27 @@ from bson import ObjectId
 class CustomerAdapter(ManagerInterface):
         
     def create_user(self, customer: Customer) -> Customer:
-        raise NotImplementedError()
+        try:
+            customer_collection.insert_one({"lastname":customer.lastname,"firstname":customer.firstname, "_id": customer.id})
+            return customer
+        except pymongo.errors.DuplicateKeyError as e:
+            raise HTTPException(
+                status_code=HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Utilisateur déjà existant"
+            )
             
     def account_statement(self, customer: Customer) -> Account:
-        raise NotImplementedError()
+        exist_customer = customer_collection.find_one({"_id": customer.id})
+
+        if exist_customer == None:
+            customer_collection.insert_one({"lastname":customer.lastname,"firstname":customer.firstname, "_id": customer.id})
+            account = Account(customer.id)
+            account_collection.insert_one({"_id":account.id,"balance": account.balance,"created_at": account.created_at,"account_owner": account.account_owner})
+            return account
+        else:
+            account = Account(customer.id)
+            account_collection.insert_one({"_id":account.id,"balance": account.balance,"created_at": account.created_at,"account_owner": account.account_owner})
+            return account
 
     def withdrawal(amount: int, account_id: str) -> Account:
         raise NotImplementedError()

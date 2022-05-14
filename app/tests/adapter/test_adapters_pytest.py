@@ -11,7 +11,7 @@ def test_create_user_exception():
     """
     adapter = CustomerAdapter()
 
-    customer = Customer("yoga","ah", adapter)
+    customer = Customer("san","goku", adapter)
     with pytest.raises(HTTPException) as e_info:
         adapter.create_user(customer)
         adapter.create_user(customer)
@@ -19,7 +19,7 @@ def test_create_user_exception():
 def test_account_statement():
     adapter = CustomerAdapter()
 
-    customer = Customer("mumu","mumu", adapter)
+    customer = Customer("vege","ta", adapter)
 
     account = Account(customer.id)
 
