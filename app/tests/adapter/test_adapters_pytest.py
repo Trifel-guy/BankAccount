@@ -5,7 +5,16 @@ import uuid
 import pytest
 from starlette.exceptions import HTTPException
 
+def test_create_user_exception():
+    """
+        test if user already exit and raise exception if he exist in database
+    """
+    adapter = CustomerAdapter()
 
+    customer = Customer("yoga","ah", adapter)
+    with pytest.raises(HTTPException) as e_info:
+        adapter.create_user(customer)
+        adapter.create_user(customer)
 
 def test_account_statement():
     adapter = CustomerAdapter()
