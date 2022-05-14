@@ -11,7 +11,9 @@ from app.domain.manager import ManagerInterface
 
 @dataclass
 class Customer:
-
+    id: str
+    lastname = str
+    firstname = str
     def __init__(self, lastname: str, firstname: str, manager: ManagerInterface):
         self.id = str(uuid.uuid4())
         self.lastname = lastname
@@ -19,20 +21,20 @@ class Customer:
         self.manager = manager
     
     def account_statement(self) -> Account:
-        return self.manager.account_statement(self.id)
+        return self.manager.account_statement(self)
     
 
     def withdrawal(self, amount: int, account_id: str) -> Account:
-        return self.manager.withdrawal(self, amount, account_id)
+        return self.manager.withdrawal(amount, account_id)
     
     def deposit(self, amount: int, account_id: str) -> Account:
-        return self.manager.deposit(self, amount , account_id)
+        return self.manager.deposit(amount , account_id)
     
     def statement_print(self, account_id: str) -> Account:
-        return self.manager.statement_print(self, account_id)
+        return self.manager.statement_print(account_id)
 
     def print_history(self, account_id: str) -> List[Operation]:
-        return self.manager.print_history(self, account_id)
+        return self.manager.print_history(account_id)
     
     def __hash__(self):
         return hash(self.id)

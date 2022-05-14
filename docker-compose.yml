@@ -12,23 +12,22 @@ services:
     volumes:
       - ./app:/app
     depends_on:
-      - mysqldb
+      - mongodb
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-  mysqldb:
-    build: ./mysql
-    restart: always
-    tty: true
-    volumes:
-      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
-      - ./mysql_data/:/var/lib/mysql/
-      - ./mysql/conf.d:/etc/mysql/conf.d
+  mongodb:
+    container_name: bankaccount
+    build: ./mongodb
     environment:
-      MYSQL_ROOT_PASSWORD: ${PASSWORD}
-      MYSQL_DATABASE: ${DATABASE}
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
     env_file:
       - .env
+    volumes:
+      - ./mongodb/backup:/backup
     ports:
-      - 3307:3306
+      - 27017:27017
+    restart: always
       
   

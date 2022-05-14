@@ -1,29 +1,32 @@
 import abc, six
+
 from app.domain.operation import Operation
 from app.domain.account import Account
-from typing import List
+from typing import List, TYPE_CHECKING
 
+# if TYPE_CHECKING:
+#     from app.domain.customer import Customer
+    
 @six.add_metaclass(abc.ABCMeta)
 class ManagerInterface():
-
     @abc.abstractmethod
-    def account_statement(self, owner_id: str) -> Account:
+    def account_statement(self) -> Account:
         pass
     
     @abc.abstractmethod
-    def withdrawal(self, amount: int, account_id: str) -> Account:
+    def withdrawal(amount: int, account_id: str) -> Account:
         pass
     
     @abc.abstractmethod
-    def deposit(self, amount: int, account_id: str) -> Account:
+    def deposit( amount: int, account_id: str) -> Account:
         pass
     
     @abc.abstractmethod
-    def statement_print(self, account_id: str) -> Account:
+    def statement_print( account_id: str) -> Account:
         pass
     
     @abc.abstractmethod
-    def print_history(self, account_id: str) -> List[Operation]:
+    def print_history(account_id: str) -> List[Operation]:
         pass
     
     
