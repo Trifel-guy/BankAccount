@@ -19,22 +19,23 @@ class Customer:
         self.lastname = lastname
         self.firstname = firstname
         self.manager = manager
+        self.account = None
     
     def account_statement(self) -> Account:
         return self.manager.account_statement(self)
     
 
-    def withdrawal(self, amount: int, account_id: str) -> Account:
-        return self.manager.withdrawal(amount, account_id)
+    def withdrawal(self, amount: int) -> Account:
+        return self.manager.withdrawal(self,amount)
     
-    def deposit(self, amount: int, account_id: str) -> Account:
-        return self.manager.deposit(amount , account_id)
+    def deposit(self, amount: int) -> Account:
+        return self.manager.deposit(self, amount)
     
-    def statement_print(self, account_id: str) -> Account:
-        return self.manager.statement_print(account_id)
+    def statement_print(self) -> Account:
+        return self.manager.statement_print(self)
 
-    def print_history(self, account_id: str) -> List[Operation]:
-        return self.manager.print_history(account_id)
+    def print_history(self, account: Account) -> List[Operation]:
+        return self.manager.print_history(self,account)
     
     def __hash__(self):
         return hash(self.id)

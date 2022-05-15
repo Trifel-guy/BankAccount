@@ -14,19 +14,19 @@ class ManagerInterface():
         pass
     
     @abc.abstractmethod
-    def withdrawal(amount: int, account_id: str) -> Account:
+    def withdrawal(amount: int) -> Account:
         pass
     
     @abc.abstractmethod
-    def deposit( amount: int, account_id: str) -> Account:
+    def deposit( amount: int) -> Account:
         pass
     
     @abc.abstractmethod
-    def statement_print( account_id: str) -> Account:
+    def statement_print() -> Account:
         pass
     
     @abc.abstractmethod
-    def print_history(account_id: str) -> List[Operation]:
+    def print_history(account: Account) -> List[Operation]:
         pass
     
     

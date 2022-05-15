@@ -1,9 +1,11 @@
 from app.domain.customer import Customer
 from app.domain.account import Account
 from app.adapter.CustomerAdapter import CustomerAdapter
+from app.db.mongodb_connector import account_collection, customer_collection
 import uuid
 import pytest
 from starlette.exceptions import HTTPException
+import pymongo.errors
 
 def test_create_user_exception():
     """
@@ -17,58 +19,51 @@ def test_create_user_exception():
         adapter.create_user(customer)
 
 def test_account_statement():
+    """
+        test account statement
+    """
     adapter = CustomerAdapter()
 
-    customer = Customer("vege","ta", adapter)
+    customer = Customer("hi","nata", adapter)
 
     account = Account(customer.id)
-
+    # with pytest.raises(pymongo.errors.DuplicateKeyError) as e_info:
     account2 = customer.account_statement()
 
-    assert account.account_owner == account2.account_owner
+    assert account.account_owner == customer.id
 
 def test_withdrawal():
+    """
+        test withdrawal method
+    """
     adapter = CustomerAdapter()
 
-    customer = Customer("yaya","yiyi", adapter)
+    customer = Customer("na","ruto", adapter)
+    customer.account_statement()
 
-    account = Account(customer.id)
+    customer.withdrawal(200)
+    account = account_collection.find_one({"account_owner":customer.id})
 
-    customer.withdrawal(200, account.id)
-
-    assert account.balance == -200
+    assert account["balance"] == -200
 
 def test_deposit():
     adapter = CustomerAdapter()
 
-    customer = Customer("toto","tata", adapter)
+    customer = Customer("ne","ji", adapter)
+    customer.account_statement()
 
-    account = Account(customer.id)
+    customer.deposit(350)
+    account = account_collection.find_one({"account_owner":customer.id})
 
-    customer.deposit(350, account.id)
-
-    assert account.balance == 350
+    assert account["balance"] == 350
 
 def test_statement_print():
     adapter = CustomerAdapter()
 
-    customer = Customer("guy","trifel", adapter)
+    customer = Customer("i","no", adapter)
 
-    account = Account(customer.id)
+    account_declared = customer.account_statement()
 
-    account_printed = customer.statement_print(account.id)
+    account_printed = customer.statement_print()
 
-    assert account.account_owner == account_printed.account_owner
-
-# def test_database_():
-#     conn = get_mysql_database()
-#     try:
-#         with conn.cursor() as cur:
-
-#             cur.execute('SELECT VERSION()')
-
-#             version = cur.fetchone()
-#             assert version != None
-#             # print(f'Database version: {version[0]}')
-#     finally:
-#         conn.close()
+    assert account_printed["_id"] == account_declared.id

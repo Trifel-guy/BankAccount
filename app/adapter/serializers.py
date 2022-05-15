@@ -1,6 +1,6 @@
 def single_customer_serializer(user) -> dict:
     return {
-        "id": str(user["id"]),
+        "id": str(user["_id"]),
         "lastname": user["lastname"],
         "firstname": user["firstname"],
     }
@@ -11,7 +11,7 @@ def customers_serializer(users) -> list:
 
 def single_account_serializer(account) -> dict:
     return {
-        "id": str(account["id"]),
+        "id": str(account["_id"]),
         "balance": account["balance"],
         "created_at": account["created_at"],
         "account_owner": account["account_owner"],
@@ -23,7 +23,7 @@ def accounts_serializer(accounts) -> list:
 
 def single_operation_serializer(operation) -> dict:
     return {
-        "id": str(operation["id"]),
+        "id": str(operation["_id"]),
         "balance": operation["balance"],
         "created_at": operation["created_at"],
         "account_owner": operation["account_owner"],

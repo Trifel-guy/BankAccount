@@ -2,7 +2,7 @@ from app.domain.customer import Customer
 from app.domain.manager import ManagerInterface
 from app.domain.account import Account
 from app.domain.operation import Operation
-from app.adapter.serializers import single_customer_serializer
+from app.adapter.serializers import single_customer_serializer, single_account_serializer
 from typing import Dict, List
 import pymongo
 from app.db.mongodb_connector import customer_collection, account_collection
@@ -26,29 +26,45 @@ class CustomerAdapter(ManagerInterface):
                 status_code=HTTP_422_UNPROCESSABLE_ENTITY,
                 detail="Utilisateur déjà existant"
             )
-            
-    def account_statement(self, customer: Customer) -> Account:
-        exist_customer = customer_collection.find_one({"_id": customer.id})
 
-        if exist_customer == None:
+    def account_statement(self, customer: Customer) -> Account:
+        try:
             customer_collection.insert_one({"lastname":customer.lastname,"firstname":customer.firstname, "_id": customer.id})
             account = Account(customer.id)
             account_collection.insert_one({"_id":account.id,"balance": account.balance,"created_at": account.created_at,"account_owner": account.account_owner})
             return account
+        except:
+            raise pymongo.errors.DuplicateKeyError("Existe déjà")
+
+    def withdrawal(self,customer: Customer, amount: int) -> Account:
+    
+        exist_account = account_collection.find_one({"account_owner": customer.id})
+        if exist_account != None:
+            account_collection.update_one({"account_owner": customer.id}, {"$set": {"balance":exist_account["balance"] - amount }})
+            return exist_account
         else:
-            account = Account(customer.id)
-            account_collection.insert_one({"_id":account.id,"balance": account.balance,"created_at": account.created_at,"account_owner": account.account_owner})
-            return account
-
-    def withdrawal(amount: int, account_id: str) -> Account:
-        raise NotImplementedError()
+            raise pymongo.errors.DuplicateKeyError("Compte inexistant")
+       
+            
     
-    def deposit(amount: int, account_id: str) -> Account:
-        raise NotImplementedError()
+    def deposit(self,customer: Customer, amount: int) -> Account:
+        exist_account = account_collection.find_one({"account_owner": customer.id})
+        
+        if exist_account != None:
+            account_collection.update_one({"account_owner": customer.id}, {"$set": {"balance":exist_account["balance"] + amount }})
+            return exist_account
+        else:
+            raise pymongo.errors.DuplicateKeyError("Compte inexistant")
     
-    def statement_print(account_id: str) -> Account:
-        raise NotImplementedError()
+    def statement_print(self,customer: Customer) -> Account:
+        exist_account = account_collection.find_one({"account_owner": customer.id})
 
-    def print_history(account_id: str) -> List[Operation]:
+        if exist_account != None:
+            # account = single_account_serializer(exist_account)
+            return exist_account
+        else:
+            raise pymongo.errors.DuplicateKeyError("Compte inexistant")
+
+    def print_history(account: Account) -> List[Operation]:
         raise NotImplementedError()
     
