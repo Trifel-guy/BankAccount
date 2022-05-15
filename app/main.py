@@ -42,6 +42,31 @@ async def create_customer(lastname: str, firstname: str):
     else:
         raise HTTPException(status_code=422, detail="Veuillez entrer des chaines de caractères s'il vous plaît")
 
+@app.get("/print/history/account/of={lastname}/firstname={firstname}", tags=["make print history account"],)
+async def print_history(lastname: str, firstname: str):
+    if isinstance(lastname, str) and isinstance(firstname, str):
+        adapter = CustomerAdapter()
+
+        customer = Customer(lastname, firstname, adapter)
+
+        list_operation = customer.print_history()
+        return list_operation
+    else:
+        raise HTTPException(status_code=422, detail="Veuillez entrer des chaines de caractères s'il vous plaît")
+
+@app.get("/statement/of/lastname={lastname}/firstname={firstname}/account", tags=["print statement"],)
+async def statement_print(lastname: str, firstname: str):
+    if isinstance(lastname, str) and isinstance(firstname, str):
+        adapter = CustomerAdapter()
+
+        customer = Customer(lastname, firstname, adapter)
+
+        account_state = customer.statement_print()
+        return account_state
+    else:
+        raise HTTPException(status_code=422, detail="Veuillez entrer des chaines de caractères s'il vous plaît")
+
+
 @app.post("/deposit/{amount}/by/lastname={lastname}/firstname={firstname}", tags=["make deposit"],)
 async def deposit(amount: int, lastname: str, firstname: str):
     if isinstance(lastname, str) and isinstance(firstname, str) and isinstance(amount, int):
@@ -69,17 +94,6 @@ async def withdrawal(amount: int, lastname: str, firstname: str):
     else:
         raise HTTPException(status_code=422, detail="Veuillez entrer un montant de type entier et des prénom et nom de type chaînes de caractères!")
 
-@app.get("/statement/of/lastname={lastname}/firstname={firstname}/account", tags=["print statement"],)
-async def statement_print(lastname: str, firstname: str):
-    if isinstance(lastname, str) and isinstance(firstname, str):
-        adapter = CustomerAdapter()
-
-        customer = Customer(lastname, firstname, adapter)
-
-        account_state = customer.statement_print()
-        return account_state
-    else:
-        raise HTTPException(status_code=422, detail="Veuillez entrer des chaines de caractères s'il vous plaît")
 
 @app.post("/account/statement/for/lastname={lastname}/firstname={firstname}", tags=["make account statement"],)
 async def account_statement(lastname: str, firstname: str):
@@ -93,16 +107,3 @@ async def account_statement(lastname: str, firstname: str):
         return account_state
     else:
         raise HTTPException(status_code=422, detail="Veuillez entrer des chaines de caractères s'il vous plaît")
-
-@app.get("/print/history/account/of={lastname}/firstname={firstname}", tags=["make print history account"],)
-async def print_history(lastname: str, firstname: str):
-    if isinstance(lastname, str) and isinstance(firstname, str):
-        adapter = CustomerAdapter()
-
-        customer = Customer(lastname, firstname, adapter)
-
-        list_operation = customer.print_history()
-        return list_operation
-    else:
-        raise HTTPException(status_code=422, detail="Veuillez entrer des chaines de caractères s'il vous plaît")
-

@@ -14,10 +14,8 @@ try:
     customer_collection.create_index("lastname", unique=True )
 
     account_collection = db.account
-    # account_collection.create_index( "id", unique=True)
 
     operation_collection = db.operation
-    # operation_collection.create_index("id", unique=True)
 except KeyError:
     client = MongoClient()
     db = client.bankaccount
@@ -25,7 +23,5 @@ except KeyError:
     customer_collection.create_index("lastname", unique=True)
 
     account_collection = db.account
-    # account_collection.create_index("id", unique=True)
     
     operation_collection = db.operation
-    # operation_collection.create_index("id", unique=True)

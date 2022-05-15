@@ -37,6 +37,9 @@ class CustomerAdapter(ManagerInterface):
             )
 
     def account_statement(self, customer: Customer) -> Account:
+        """
+            Déclarer un compte
+        """
         exist_customer = customer_collection.find_one({"lastname": customer.lastname, "firstname":customer.firstname})
         if not exist_customer:
             list_operation = []
@@ -57,6 +60,9 @@ class CustomerAdapter(ManagerInterface):
             )
 
     def withdrawal(self,customer: Customer, amount: int) -> Account:
+        """
+            Faire un retrait
+        """
         exist_customer = customer_collection.find_one({"lastname": customer.lastname, "firstname":customer.firstname})
         amount_good = abs(amount)
         if exist_customer:
@@ -76,6 +82,9 @@ class CustomerAdapter(ManagerInterface):
        
     
     def deposit(self,customer: Customer, amount: int) -> Account:
+        """
+            Faire un dépôt
+        """
         amount_good = abs(amount)
         exist_customer = customer_collection.find_one({"lastname": customer.lastname, "firstname":customer.firstname})
         
@@ -95,6 +104,9 @@ class CustomerAdapter(ManagerInterface):
             raise HTTPException(status_code=404, detail="Deposit: Customer inexistant!")
     
     def statement_print(self,customer: Customer) -> Account:
+        """
+            Afficher l'état d'un compte
+        """
         exist_customer = customer_collection.find_one({"lastname": customer.lastname, "firstname":customer.firstname})
         
         if exist_customer != None:
@@ -105,6 +117,9 @@ class CustomerAdapter(ManagerInterface):
             raise HTTPException(status_code=404, detail="statement_print: Customer inexistant!")
 
     def print_history(self,customer: Customer) -> List[Operation]:
+        """
+            Afficher l'historique des opération
+        """
         exist_customer = customer_collection.find_one({"lastname": customer.lastname, "firstname":customer.firstname})
         
         if exist_customer:
