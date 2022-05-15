@@ -19,7 +19,6 @@ class Customer:
         self.lastname = lastname
         self.firstname = firstname
         self.manager = manager
-        self.account = None
     
     def account_statement(self) -> Account:
         return self.manager.account_statement(self)
@@ -34,8 +33,8 @@ class Customer:
     def statement_print(self) -> Account:
         return self.manager.statement_print(self)
 
-    def print_history(self, account: Account) -> List[Operation]:
-        return self.manager.print_history(self,account)
+    def print_history(self) -> List[Operation]:
+        return self.manager.print_history(self)
     
     def __hash__(self):
         return hash(self.id)

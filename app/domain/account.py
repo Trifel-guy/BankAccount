@@ -10,7 +10,7 @@ class Account:
     balance: float
     created_at: datetime.datetime
     account_owner: str
-    list_operation: List[Operation]
+    list_operation: List[dict]
     
     def __init__(self, account_owner):
         self.id = str(uuid.uuid4())

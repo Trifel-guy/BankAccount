@@ -13,7 +13,7 @@ def test_create_user_exception():
     """
     adapter = CustomerAdapter()
 
-    customer = Customer("san","goku", adapter)
+    customer = Customer("h","lk", adapter)
     with pytest.raises(HTTPException) as e_info:
         adapter.create_user(customer)
         adapter.create_user(customer)
@@ -24,7 +24,7 @@ def test_account_statement():
     """
     adapter = CustomerAdapter()
 
-    customer = Customer("hi","nata", adapter)
+    customer = Customer("tyu","mlk", adapter)
 
     account = Account(customer.id)
     # with pytest.raises(pymongo.errors.DuplicateKeyError) as e_info:
@@ -38,7 +38,7 @@ def test_withdrawal():
     """
     adapter = CustomerAdapter()
 
-    customer = Customer("na","ruto", adapter)
+    customer = Customer("ninho","maness", adapter)
     customer.account_statement()
 
     customer.withdrawal(200)
@@ -49,7 +49,7 @@ def test_withdrawal():
 def test_deposit():
     adapter = CustomerAdapter()
 
-    customer = Customer("ne","ji", adapter)
+    customer = Customer("cabrel","musique", adapter)
     customer.account_statement()
 
     customer.deposit(350)
@@ -60,10 +60,10 @@ def test_deposit():
 def test_statement_print():
     adapter = CustomerAdapter()
 
-    customer = Customer("i","no", adapter)
+    customer = Customer("fu","ture", adapter)
 
     account_declared = customer.account_statement()
 
     account_printed = customer.statement_print()
 
-    assert account_printed["_id"] == account_declared.id
+    assert account_printed["_id"] == account_declared["_id"]

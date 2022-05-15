@@ -26,7 +26,7 @@ class ManagerInterface():
         pass
     
     @abc.abstractmethod
-    def print_history(account: Account) -> List[Operation]:
+    def print_history() -> List[Operation]:
         pass
     
     
