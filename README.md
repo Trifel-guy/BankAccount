@@ -4,7 +4,7 @@ kata for exalt it, implementing hexagonal architecture in python with TDD
 
 ## Pré-requis
 
-Ce qui est requis pour commencer avec votre projet:
+Ce qui est requis pour lancer le projet:
 
 - Docker installé
 - docker-compose installé
