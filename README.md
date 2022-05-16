@@ -6,7 +6,6 @@ kata for exalt it, implementing hexagonal architecture in python with TDD
 
 Ce qui est requis pour commencer avec votre projet:
 
-- copier-coler le .env fournit à la racine du projet
 - Docker installé
 - docker-compose installé
 - python installé
